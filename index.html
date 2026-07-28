@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCU Agrotech — Panel Monitoring</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="panel">
+    <span class="bolt tl"></span><span class="bolt tr"></span>
+    <span class="bolt bl"></span><span class="bolt br"></span>
+
+    <div class="head">
+      <div>
+        <span class="tag"><span class="dot"></span>MCU AGROTECH</span>
+        <h1>Panel Monitoring<span>Suhu, kelembapan &amp; kontrol relay — live dari ThingSpeak</span></h1>
+      </div>
+      <div class="status"><span class="led" id="statusLed"></span><span id="statusText">Menghubungkan…</span></div>
+    </div>
+
+    <!-- LCD HERO -->
+    <div class="lcd">
+      <div class="lcd-title">▍Monitoring</div>
+      <div class="lcd-grid">
+        <div class="lcd-item">
+          <div class="lbl">SUHU</div>
+          <div class="val" id="lcdSuhu">--<small>°C</small></div>
+        </div>
+        <div class="lcd-item">
+          <div class="lbl">K. UDARA</div>
+          <div class="val" id="lcdHum">--<small>%</small></div>
+        </div>
+        <div class="lcd-item">
+          <div class="lbl">K. TANAH</div>
+          <div class="val" id="lcdSoil">--<small>%</small></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHARTS -->
+    <div class="grid">
+      <div class="card">
+        <span class="clip"></span>
+        <h2><span class="swatch" style="background:#ef4444"></span>Suhu (°C)</h2>
+        <canvas id="tempChart"></canvas>
+      </div>
+      <div class="card">
+        <span class="clip" style="background:#2f6fd8"></span>
+        <h2><span class="swatch" style="background:#2f6fd8"></span>Kelembapan Udara (%)</h2>
+        <canvas id="humChart"></canvas>
+      </div>
+      <div class="card">
+        <span class="clip" style="background:#b8843c"></span>
+        <h2><span class="swatch" style="background:#b8843c"></span>Kelembapan Tanah (%)</h2>
+        <canvas id="soilChart"></canvas>
+      </div>
+
+      <div class="card relay-card">
+        <span class="clip" style="background:var(--red)"></span>
+        <h2><span class="swatch" style="background:var(--red)"></span>Kontrol Relay</h2>
+        <div class="relay-row">
+          <div class="relay">
+            <div class="meta">
+              <span class="wire"></span>
+              <div><div class="name">Relay 1</div><div class="sub">Pompa / aktuator 1</div></div>
+            </div>
+            <button class="switch" id="relay1" onclick="toggleRelay(1)"></button>
+          </div>
+          <div class="relay">
+            <div class="meta">
+              <span class="wire"></span>
+              <div><div class="name">Relay 2</div><div class="sub">Pompa / aktuator 2</div></div>
+            </div>
+            <button class="switch" id="relay2" onclick="toggleRelay(2)"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>Created by <b>PSMURO</b>, Gunadarma University</footer>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

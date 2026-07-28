@@ -1,0 +1,135 @@
+:root{
+    --panel: #EDE7D8;        /* cream board, spt papan panel */
+    --panel-edge: #DCD3BC;
+    --frame: #17140F;        /* bingkai kayu gelap */
+    --ink: #221F19;
+    --ink-soft: #6b6558;
+    --green: #3F6B4A;        /* label "MCU Agrotech" */
+    --green-soft: #E4EEE3;
+    --lcd-bg: #2FD8EA;       /* layar LCD */
+    --lcd-bg-deep: #1EC6D9;
+    --lcd-text: #0B3B45;
+    --red: #D6453D;          /* saklar relay */
+    --red-deep: #B23931;
+    --amber: #D99A3C;
+    --wire-black:#221F19;
+    --shadow: 0 10px 30px -12px rgba(23,20,15,0.35);
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{
+    background:
+      radial-gradient(1200px 600px at 50% -10%, #FBF8F0 0%, #E7E0CC 60%, #DBD3BA 100%);
+    color:var(--ink);
+    font-family: "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
+    padding: 28px 16px 60px;
+    min-height:100vh;
+  }
+  .wrap{ max-width:1180px; margin:0 auto; }
+
+  /* ===== PANEL SHELL ===== */
+  .panel{
+    background: var(--panel);
+    border: 2px solid var(--frame);
+    border-radius: 22px;
+    box-shadow: var(--shadow), inset 0 0 0 6px var(--panel-edge);
+    padding: 28px 28px 22px;
+    position: relative;
+  }
+  .bolt{
+    position:absolute; width:14px; height:14px; border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, #fff, #9a958a 55%, #55503f 100%);
+    box-shadow: inset 0 0 2px rgba(0,0,0,.5);
+  }
+  .bolt.tl{ top:14px; left:16px; } .bolt.tr{ top:14px; right:16px; }
+  .bolt.bl{ bottom:14px; left:16px; } .bolt.br{ bottom:14px; right:16px; }
+
+  /* ===== HEADER ===== */
+  .head{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; margin-bottom:22px; }
+  .tag{
+    display:inline-flex; align-items:center; gap:8px;
+    background: var(--green-soft); color: var(--green);
+    border:1px solid #c6dac8; padding:7px 16px; border-radius:999px;
+    font-weight:700; font-size:13px; letter-spacing:.03em;
+  }
+  .tag .dot{ width:8px; height:8px; border-radius:50%; background: var(--green); box-shadow:0 0 0 3px rgba(63,107,74,.15); }
+  h1{ font-size: 22px; letter-spacing:.01em; margin-top:6px; }
+  h1 span{ color:var(--ink-soft); font-weight:400; font-size:14px; display:block; margin-top:2px; }
+  .status{
+    display:flex; align-items:center; gap:8px; font-size:13px; color:var(--ink-soft);
+    background:#fff; border:1px solid var(--panel-edge); padding:8px 14px; border-radius:12px;
+  }
+  .status .led{ width:9px; height:9px; border-radius:50%; background:#8a8272; }
+  .status .led.online{ background:#37b463; box-shadow:0 0 8px #37b46399; animation:blink 2.4s infinite; }
+  .status .led.offline{ background:var(--red); }
+  @keyframes blink{ 0%,100%{opacity:1;} 50%{opacity:.35;} }
+  @media (prefers-reduced-motion: reduce){ .status .led.online{ animation:none; } }
+
+  /* ===== LCD HERO ===== */
+  .lcd{
+    background: linear-gradient(180deg, var(--lcd-bg), var(--lcd-bg-deep));
+    border-radius: 16px;
+    border: 6px solid #123338;
+    padding: 22px 26px;
+    color: var(--lcd-text);
+    font-family: "Consolas","SF Mono", monospace;
+    position: relative;
+    overflow:hidden;
+    box-shadow: inset 0 2px 12px rgba(0,0,0,.25);
+  }
+  .lcd::before{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background: repeating-linear-gradient(180deg, rgba(11,59,69,.05) 0px, rgba(11,59,69,.05) 1px, transparent 2px, transparent 4px);
+  }
+  .lcd-title{ font-size:13px; letter-spacing:.14em; opacity:.75; margin-bottom:14px; text-transform:uppercase; }
+  .lcd-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+  .lcd-item .lbl{ font-size:12px; opacity:.7; letter-spacing:.05em; }
+  .lcd-item .val{ font-size:30px; font-weight:700; margin-top:2px; }
+  .lcd-item .val small{ font-size:15px; font-weight:600; }
+  @media (max-width:640px){ .lcd-grid{ grid-template-columns:1fr; gap:14px; } }
+
+  /* ===== GRID ===== */
+  .grid{ display:grid; grid-template-columns: 1fr 1fr; gap:18px; margin-top:20px; }
+  @media (max-width:900px){ .grid{ grid-template-columns:1fr; } }
+
+  .card{
+    background:#fff; border:1px solid var(--panel-edge); border-radius:16px;
+    padding:18px 18px 14px; position:relative; box-shadow: 0 6px 18px -12px rgba(23,20,15,.25);
+  }
+  .clip{
+    position:absolute; top:-1px; left:22px; width:46px; height:8px; border-radius:0 0 6px 6px;
+    background: var(--green);
+  }
+  .card h2{ font-size:14px; letter-spacing:.03em; color:var(--ink-soft); font-weight:700; margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+  .card h2 .swatch{ width:10px; height:10px; border-radius:3px; }
+  canvas{ max-height:220px; }
+
+  /* ===== RELAY ===== */
+  .relay-card{ grid-column: span 2; }
+  @media (max-width:900px){ .relay-card{ grid-column: span 1; } }
+  .relay-row{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:6px; }
+  .relay{
+    display:flex; align-items:center; justify-content:space-between;
+    background: #FAF7EE; border:1px solid var(--panel-edge); border-radius:12px;
+    padding: 14px 16px;
+  }
+  .relay .meta{ display:flex; align-items:center; gap:10px; }
+  .relay .wire{ width:4px; height:26px; border-radius:2px; background: var(--wire-black); }
+  .relay .name{ font-weight:700; font-size:14px; }
+  .relay .sub{ font-size:12px; color:var(--ink-soft); }
+
+  .switch{
+    --w:56px; --h:30px;
+    width:var(--w); height:var(--h); border-radius:8px; border:none; cursor:pointer;
+    background: linear-gradient(180deg,#3a3a3a,#161616);
+    position:relative; box-shadow: inset 0 0 0 2px #0a0a0a, 0 3px 6px rgba(0,0,0,.35);
+  }
+  .switch::after{
+    content:""; position:absolute; top:3px; left:3px; width:calc(var(--h) - 10px); height:calc(var(--h) - 10px);
+    border-radius:6px; background: linear-gradient(180deg,#8a8a8a,#4a4a4a);
+    transition: transform .25s ease, background .25s ease;
+  }
+  .switch.active{ background: linear-gradient(180deg, var(--red), var(--red-deep)); }
+  .switch.active::after{ transform: translateX(calc(var(--w) - var(--h) - 2px)); background: linear-gradient(180deg,#ffe1df,#fff); }
+
+  footer{ text-align:center; margin-top:18px; font-size:12px; color:var(--ink-soft); letter-spacing:.02em; }
+  footer b{ color:var(--ink); }
