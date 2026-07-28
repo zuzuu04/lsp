@@ -1,0 +1,40 @@
+Step-by-step lengkap, dari nol
+1️⃣ Setup ThingSpeak
+Daftar/login di thingspeak.com, bikin channel baru.
+Aktifkan 5 field: field1 Suhu, field2 Kelembapan, field3 Kelembapan Tanah, field4 Relay1, field5 Relay2.
+Buka tab API Keys channel itu → catat Write API Key dan Read API Key.
+Masukkan dua key itu ke mcu_agrotech.ino (writeAPIKey, readAPIKey) dan ke data/script.js (CH.readKey, CH.writeKey) — yang gue kasih sekarang masih pakai key contoh dari chat sebelumnya, ganti sesuai channel lo yang beneran.
+
+2️⃣ Siapin Arduino IDE
+Install Arduino IDE 2.x.
+File > Preferences → tambahin Additional Board URL: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+Tools > Board > Board Manager → cari "esp32" → install.
+Install library lewat Tools > Manage Libraries: ThingSpeak, DHT sensor library (Adafruit), LiquidCrystal I2C. (LittleFS udah bawaan core ESP32, gak perlu install manual.)
+
+3️⃣ Install plugin upload LittleFS (ini kunci dari yang lo tanyain)
+Arduino IDE gak punya tombol upload LittleFS bawaan, jadi perlu plugin:
+Download arduino-littlefs-upload dari: https://github.com/earlephilhower/arduino-littlefs-upload/releases
+Taruh file .vsix-nya ke folder plugin Arduino IDE 2 (~/.arduinoIDE/plugins/ di Linux/Mac, atau %USERPROFILE%\.arduinoIDE\plugins\ di Windows).
+Restart Arduino IDE.
+
+4️⃣ Buka sketch & upload filesystem
+Buka mcu_agrotech.ino di Arduino IDE (pastikan folder data ada di sebelahnya).
+Pilih board ESP32 Dev Module (atau sesuai board lo) & port yang bener.
+Tekan Ctrl+Shift+P → cari "Upload LittleFS to Pico/ESP32" → jalankan. Ini yang nge-upload index.html, style.css, script.js ke memori flash ESP32.
+
+5️⃣ Upload sketch-nya
+Klik tombol Upload biasa (ikon panah) buat upload mcu_agrotech.ino.
+Buka Serial Monitor (baud 115200).
+Tunggu sampai muncul:
+WiFi CONNECTED!
+>> Buka dashboard di browser: http://192.168.x.x
+Catat IP itu.
+
+6️⃣ Buka dashboard-nya
+Pastikan HP/laptop lo nyambung ke WiFi yang sama (UGMURO-INET).
+Buka browser, ketik IP yang tadi dicatat (misal http://192.168.1.25).
+Dashboard bakal muncul langsung dari ESP32 — bukan dari file lokal laptop lagi. Semua device di WiFi yang sama bisa akses pakai IP itu.
+
+7️⃣ Tes fungsinya
+Chart suhu/kelembapan/tanah bakal keisi otomatis tiap 15 detik (ambil dari ThingSpeak).
+Klik switch relay → tunggu maks ~20 detik (karena ESP32 poll status tiap 20 detik) → relay fisik & LCD ikut berubah.
